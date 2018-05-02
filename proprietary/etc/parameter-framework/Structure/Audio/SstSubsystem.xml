@@ -20,11 +20,14 @@
         <xi:include href="intel/Mdrc.xml"/>
         <xi:include href="intel/SbaEqualizers.xml"/>
         <xi:include href="intel/ToneGenerator_V2_4.xml"/>
-        <xi:include href="intel/FmVolumeControl.xml"/>
 
         <!-- FBA algorithms definitions -->
         <xi:include href="intel/MediaAlgos_Gen3_5.xml"/>
-        <xi:include href="fortemedia/ForteMediaSpeech_V3_1.xml"/>
+        <xi:include href="intel/VoiceAlgos_Gen3_5.xml"/>
+        <xi:include href="intel/HfSns2.xml"/>
+
+        <!-- SST Commit controls -->
+        <xi:include href="intel/ModuleVoiceProcessingLock_V1_0.xml"/>
 
         <ComponentType Name="Rx_slot">
             <EnumParameter Name="source" Size="8" Mapping="Control:%1 %2 %3">
@@ -62,12 +65,20 @@
 
         <ComponentType Name="BtFmMuxer">
             <EnumParameter Name="select" Size="8" Mapping="Control:%1 %2 %3">
-                <ValuePair Literal="fm" Numerical="0"/>
                 <ValuePair Literal="bt" Numerical="1"/>
+                <ValuePair Literal="fm" Numerical="2"/>
             </EnumParameter>
         </ComponentType>
 
-        <ComponentType Name="SampleSpecDomain">
+        <ComponentType Name="SampleSpecDomainBt">
+            <EnumParameter Name="mode" Size="8" Mapping="Control:%1 %2 mode 0">
+                <ValuePair Literal="narrow-band" Numerical="0"/>
+                <ValuePair Literal="wide-band" Numerical="1"/>
+                <ValuePair Literal="a2dp" Numerical="2"/>
+            </EnumParameter>
+        </ComponentType>
+
+        <ComponentType Name="SampleSpecDomainVoice">
             <EnumParameter Name="mode" Size="8" Mapping="Control:%1 %2 mode 0">
                 <ValuePair Literal="narrow-band" Numerical="0"/>
                 <ValuePair Literal="wide-band" Numerical="1"/>
@@ -76,15 +87,55 @@
         </ComponentType>
 
         <!-- Pipes type definitions -->
+        <ComponentType Name="NoiseReductionDualMicrophoneNoiseReduction">
+            <Component Name="nr" Type="NoiseReduction"/>
+            <Component Name="dnr" Type="DualMicrophoneNoiseReduction_V1_5"/>
+        </ComponentType>
+
+        <ComponentType Name="AmbiantNoiseAdapterDynamicRangeProcessor">
+            <Component Name="ana" Type="AmbientNoiseAdapter_V2_5"/>
+            <Component Name="drp" Type="DynamicRangeProcessor_V1_4"/>
+        </ComponentType>
+
         <ComponentType Name="TxSpeechPipe">
             <Component Name="in_gain" Type="Gain" Mapping="Amend1:txspeech_in,Amend2:gain,Amend3:0"/>
+            <Component Name="ul_gain" Type="Gain" Mapping="Amend1:speech_out,Amend2:gain,Amend3:1"/>
+            <ParameterBlock Name="equalizer">
+                <Component Name="fir" Type="FbaFir_V1_1" Mapping="Amend1:speech_out,Amend2:ul_module,Amend3:0,Amend4:fir_speech"/>
+                <Component Name="iir" Type="FbaIir_V1_1" Mapping="Amend1:speech_out,Amend2:ul_module,Amend3:0,Amend4:iir_speech"/>
+            </ParameterBlock>
+            <Component Name="bmf" Type="BeamForming_V1_1" Mapping="Amend1:speech_out,Amend2:ul_module,Amend3:0"/>
+            <Component Name="nlf" Type="NonLinearFilter" Mapping="Amend1:speech_out,Amend2:ul_module,Amend3:0"/>
+            <Component Name="edl" Type="EchoDelayLine_V1_1" Mapping="Amend1:speech_out,Amend2:ul_module,Amend3:0"/>
+            <Component Name="ref_line" Type="ReferenceLine_V1_1" Mapping="Amend1:speech_out,Amend2:ul_module,Amend3:0"/>
+            <Component Name="aec" Type="AcousticEchoCanceler_V1_6" Mapping="Amend1:speech_out,Amend2:ul_module,Amend3:0"/>
+            <Component Name="nr_dnr" Type="NoiseReductionDualMicrophoneNoiseReduction" Mapping="Amend1:speech_out,Amend2:ul_module,Amend3:0"/>
+            <Component Name="tnr" Type="TrafficNoiseReduction" Mapping="Amend1:speech_out,Amend2:ul_module,Amend3:0"/>
+            <Component Name="ser" Type="SpectralEchoReduction" Mapping="Amend1:speech_out,Amend2:ul_module,Amend3:0"/>
+            <Component Name="wnr" Type="WindNoiseReduction_V1_0" Mapping="Amend1:speech_out,Amend2:ul_module,Amend3:0"/>
+            <Component Name="agc" Type="AutomaticGainControl_V1_3" Mapping="Amend1:speech_out,Amend2:ul_module,Amend3:0"/>
+            <Component Name="cni" Type="ComfortNoiseInjector_V1_2" Mapping="Amend1:speech_out,Amend2:ul_module,Amend3:0"/>
+            <Component Name="drp" Type="DynamicRangeProcessor_V1_4" Mapping="Amend1:speech_out,Amend2:ul_module,Amend3:0"/>
             <Component Name="out_gain" Type="Gain" Mapping="Amend1:speech_out,Amend2:gain,Amend3:0"/>
+            <Component Name="lock" Type="VoiceProcessingLock" Mapping="Amend1:speech_out,Amend2:ul_module,Amend3:0"/>
         </ComponentType>
 
         <ComponentType Name="RxSpeechPipe">
             <Component Name="in_gain" Type="Gain" Mapping="Amend1:speech_in,Amend2:gain,Amend3:0"/>
+            <Component Name="nr" Type="NoiseReduction" Mapping="Amend1:speech_in,Amend2:dl_module,Amend3:0"/>
+            <Component Name="tnr" Type="TrafficNoiseReduction" Mapping="Amend1:speech_in,Amend2:dl_module,Amend3:0"/>
+            <Component Name="slv" Type="SlowVoice_V1_0" Mapping="Amend1:speech_in,Amend2:dl_module,Amend3:0"/>
+            <Component Name="bwx" Type="BandWidthExtender_V1_0" Mapping="Amend1:speech_in,Amend2:dl_module,Amend3:0"/>
+            <Component Name="mdrp" Type="MultibandDynamicRangeProcessor_V1_0" Mapping="Amend1:speech_in,Amend2:dl_module,Amend3:0"/>
+            <Component Name="ana_drp" Type="AmbiantNoiseAdapterDynamicRangeProcessor" Mapping="Amend1:speech_in,Amend2:dl_module,Amend3:0"/>
+            <Component Name="glc" Type="GainLossControl_V1_0" Mapping="Amend1:speech_in,Amend2:dl_module,Amend3:0"/>
+            <Component Name="cni" Type="ComfortNoiseInjector_V1_1" Mapping="Amend1:speech_in,Amend2:dl_module,Amend3:0"/>
+            <ParameterBlock Name="equalizer">
+                <Component Name="fir" Type="FbaFir_V1_1" Mapping="Amend1:speech_in,Amend2:dl_module,Amend3:0,Amend4:fir"/>
+                <Component Name="iir" Type="FbaIir_V1_1" Mapping="Amend1:speech_in,Amend2:dl_module,Amend3:0,Amend4:iir"/>
+            </ParameterBlock>
             <Component Name="out_gain" Type="VoiceVolume" Mapping="Amend1:rxspeech_out,Amend2:gain,Amend3:0"/>
-            <Component Name="forte_media" Type="ForteMediaSpeech" Mapping="Amend1:speech_out,Amend2:ul_module,Amend3:0"/>
+            <Component Name="lock" Type="VoiceProcessingLock" Mapping="Amend1:speech_in,Amend2:dl_module,Amend3:0"/>
         </ComponentType>
 
         <!-- Pipe instances definitions -->
@@ -92,6 +143,8 @@
             <Component Name="pcm_compressed" Type="GainPipe" Mapping="Amend1:pcm0_in"/>
             <Component Name="pcm_regular" Type="GainPipe" Mapping="Amend1:pcm1_in"/>
             <Component Name="pcm_deep" Type="GainPipe" Mapping="Amend1:pcm2_in"/>
+            <Component Name="pcm_low_latency_playback" Type="GainPipe" Mapping="Amend1:low_pcm0_in"/>
+            <Component Name="pcm_low_latency_capture" Type="GainPipe" Mapping="Amend1:low_pcm0_out"/>
             <ParameterBlock Name="pcm_record">
                 <Component Name="mic_1_2" Type="GainPipe" Mapping="Amend1:pcm1_out"/>
                 <Component Name="mic_3_4" Type="GainPipe" Mapping="Amend1:pcm3_out"/>
@@ -111,11 +164,10 @@
             </ParameterBlock>
             <ParameterBlock Name="cws_in">
                 <Component Name="bt" Type="SspInPipe" Mapping="Amend1:bt_in"/>
-                <Component Name="fm" Type="FmSspInPipe" Mapping="Amend1:fm_in"/>
                 <Component Name="mux" Type="BtFmMuxer" Mapping="Amend1:ssp1_out,Amend2:mux,Amend3:0"/>
             </ParameterBlock>
             <Component Name="sprot_loop" Type="SpeakerProtPipe" Mapping="Amend1:sprot_loop_out"/>
-            <Component Name="hf_sns2" Type="GainPipe" Mapping="Amend1:hf_sns_out"/>
+            <Component Name="hf_sns2" Type="EqPipeHfSns2"/>
             <Component Name="hf_ref" Type="GainPipe" Mapping="Amend1:hf_out"/>
             <Component Name="tx_speech_loop" Type="TxSpeechPipe"/>
             <Component Name="rx_speech_loop" Type="RxSpeechPipe"/>
@@ -178,14 +230,15 @@
             <Component Name="pcm3" Type="MainMixerOut" Mapping="Amend1:pcm3_out"/>
             <Component Name="modem" Type="MainMixerOut" Mapping="Amend1:modem_out"/>
             <Component Name="voip" Type="MainMixerOut" Mapping="Amend1:voip_out"/>
+            <Component Name="low_latency" Type="MainMixerOut" Mapping="Amend1:low_pcm0_out"/>
             <Component Name="aware" Type="MainMixerOut" Mapping="Amend1:aware_out"/>
             <Component Name="vad" Type="MainMixerOut" Mapping="Amend1:vad_out"
                        Description="Voice Auto Detection mixer"/>
         </ComponentType>
 
         <ComponentType Name="SampleSpecDomains" Mapping="Amend1:domain">
-            <Component Name="bt" Type="SampleSpecDomain" Mapping="Amend2:bt"/>
-            <Component Name="voice" Type="SampleSpecDomain" Mapping="Amend2:voice"/>
+            <Component Name="bt" Type="SampleSpecDomainBt" Mapping="Amend2:bt"/>
+            <Component Name="voice" Type="SampleSpecDomainVoice" Mapping="Amend2:voice"/>
         </ComponentType>
     </ComponentLibrary>
 

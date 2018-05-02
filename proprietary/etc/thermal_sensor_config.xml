@@ -40,6 +40,38 @@
 		<LowTemp>trip_point_1_temp</LowTemp>
 	</Sensor>
 
+	<Sensor>
+		<SensorName>STR3</SensorName>
+		<SensorPath>auto</SensorPath>
+		<InputTemp>temp</InputTemp>
+		<HighTemp>invalid</HighTemp>
+		<LowTemp>trip_point_1_temp</LowTemp>
+	</Sensor>
+
+	<!--Modem Sensor IDs are enumerated from OemtelephonyConstants class during runtime-->
+	<Sensor>
+		<SensorName>Modem_RF</SensorName>
+		<SensorPath>none</SensorPath>
+		<InputTemp>invalid</InputTemp>
+	</Sensor>
+
+	<Sensor>
+		<SensorName>Modem_BB</SensorName>
+		<SensorPath>none</SensorPath>
+		<InputTemp>invalid</InputTemp>
+	</Sensor>
+
+	<Sensor>
+		<SensorName>Modem_PMU</SensorName>
+		<SensorPath>none</SensorPath>
+		<InputTemp>invalid</InputTemp>
+	</Sensor>
+
+	<Sensor>
+		<SensorName>Modem_PA</SensorName>
+		<SensorPath>none</SensorPath>
+		<InputTemp>invalid</InputTemp>
+	</Sensor>
         <!-- CPU DTS should not be monitored and acted upon
 	in CHT as FW mechanism(RATL) is available for monitoring
 	DTS and taking appropriate throttle action.
@@ -57,120 +89,15 @@
 	<Zone>
 		<ZoneID>1</ZoneID>
 		<ZoneName>BackSkin</ZoneName>
-		<ZoneLogic>VirtualSkin</ZoneLogic>
-		<SupportsUEvent>Hybrid</SupportsUEvent>
-		<SupportsEmulTemp>0</SupportsEmulTemp>
-		<DebounceInterval>1000</DebounceInterval>
-		<PollDelay>
-			<DelayNormal>30000</DelayNormal>
-			<DelayNormal1>30000</DelayNormal1>
-			<DelayNormal2>30000</DelayNormal2>
-			<DelayNormal3>30000</DelayNormal3>
-			<DelayWarning>20000</DelayWarning>
-			<DelayAlert>10000</DelayAlert>
-		</PollDelay>
-                <MovingAverageWindow>
-                        <WindowNormal>120000</WindowNormal>
-                        <WindowNormal1>120000</WindowNormal1>
-                        <WindowNormal2>120000</WindowNormal2>
-                        <WindowNormal3>120000</WindowNormal3>
-                        <WindowWarning>120000</WindowWarning>
-                        <WindowAlert>120000</WindowAlert>
-                </MovingAverageWindow>
-		<ZoneThreshold>
-			<ZoneThresholdNormal>40000</ZoneThresholdNormal>
-			<ZoneThresholdNormal1>41500</ZoneThresholdNormal1>
-			<ZoneThresholdNormal2>43000</ZoneThresholdNormal2>
-			<ZoneThresholdNormal3>44000</ZoneThresholdNormal3>
-			<ZoneThresholdWarning>50000</ZoneThresholdWarning>
-			<ZoneThresholdAlert>60000</ZoneThresholdAlert>
-		</ZoneThreshold>
-		<SensorAttrib>
-			<SensorName>STR0</SensorName>
-			<Weight>1000</Weight>
-		</SensorAttrib>
-		<Offset>0</Offset>
-	</Zone>
-	<Zone>
-		<ZoneID>2</ZoneID>
-		<ZoneName>FrontSkin</ZoneName>
-		<ZoneLogic>VirtualSkin</ZoneLogic>
-		<SupportsUEvent>Hybrid</SupportsUEvent>
-		<SupportsEmulTemp>0</SupportsEmulTemp>
-		<DebounceInterval>1000</DebounceInterval>
-		<PollDelay>
-			<DelayNormal>30000</DelayNormal>
-			<DelayNormal1>30000</DelayNormal1>
-			<DelayNormal2>30000</DelayNormal2>
-			<DelayNormal3>30000</DelayNormal3>
-			<DelayWarning>20000</DelayWarning>
-			<DelayAlert>10000</DelayAlert>
-		</PollDelay>
-                <MovingAverageWindow>
-                        <WindowNormal>120000</WindowNormal>
-                        <WindowNormal1>120000</WindowNormal1>
-                        <WindowNormal2>120000</WindowNormal2>
-                        <WindowNormal3>120000</WindowNormal3>
-                        <WindowWarning>120000</WindowWarning>
-                        <WindowAlert>120000</WindowAlert>
-                </MovingAverageWindow>
-		<ZoneThreshold>
-			<ZoneThresholdNormal>43000</ZoneThresholdNormal>
-			<ZoneThresholdNormal1>44000</ZoneThresholdNormal1>
-			<ZoneThresholdNormal2>45000</ZoneThresholdNormal2>
-			<ZoneThresholdNormal3>46000</ZoneThresholdNormal3>
-			<ZoneThresholdWarning>50000</ZoneThresholdWarning>
-			<ZoneThresholdAlert>60000</ZoneThresholdAlert>
-		</ZoneThreshold>
-		<SensorAttrib>
-			<SensorName>STR0</SensorName>
-			<Weight>1000</Weight>
-		</SensorAttrib>
-		<Offset>0</Offset>
-	</Zone>
-	<Zone>
-		<ZoneID>3</ZoneID>
-		<ZoneName>Battery</ZoneName>
 		<ZoneLogic>Raw</ZoneLogic>
-		<SupportsUEvent>Hybrid</SupportsUEvent>
-		<DebounceInterval>1500</DebounceInterval>
-		<PollDelay>
-			<DelayNormal>30000</DelayNormal>
-			<DelayNormal1>30000</DelayNormal1>
-			<DelayNormal2>30000</DelayNormal2>
-			<DelayWarning>20000</DelayWarning>
-			<DelayAlert>10000</DelayAlert>
-		</PollDelay>
-		<ZoneThreshold>
-                        <!-- Battery zone thresholds are set to 60C to enable interrupt
-                        mode for the zone through a kernel work around. These thresholds
-                        should not be modified for now, else functionality will break -->
-			<ZoneThresholdNormal>44000</ZoneThresholdNormal>
-			<ZoneThresholdNormal1>45000</ZoneThresholdNormal1>
-			<ZoneThresholdNormal2>47000</ZoneThresholdNormal2>
-			<ZoneThresholdWarning>50000</ZoneThresholdWarning>
-			<ZoneThresholdAlert>60000</ZoneThresholdAlert>
-		</ZoneThreshold>
-		<SensorAttrib>
-			<SensorName>STR2</SensorName>
-		</SensorAttrib>
-	</Zone>
-</Profile>
-
-<Profile>
-	<Name>BatterySaver</Name>
-	<Zone>
-		<ZoneID>1</ZoneID>
-		<ZoneName>BackSkin</ZoneName>
-		<ZoneLogic>VirtualSkin</ZoneLogic>
-		<SupportsUEvent>Hybrid</SupportsUEvent>
+		<SupportsUEvent>0</SupportsUEvent>
 		<SupportsEmulTemp>0</SupportsEmulTemp>
-		<DebounceInterval>1000</DebounceInterval>
+		<DebounceInterval>100</DebounceInterval>
 		<PollDelay>
-			<DelayNormal>30000</DelayNormal>
+			<DelayNormal>20000</DelayNormal>
 			<DelayNormal1>30000</DelayNormal1>
 			<DelayNormal2>30000</DelayNormal2>
-			<DelayNormal3>30000</DelayNormal3>
+                        <DelayNormal3>30000</DelayNormal3>
 			<DelayWarning>20000</DelayWarning>
 			<DelayAlert>10000</DelayAlert>
 		</PollDelay>
@@ -180,186 +107,83 @@
                         <WindowNormal2>120000</WindowNormal2>
                         <WindowNormal3>120000</WindowNormal3>
                         <WindowWarning>120000</WindowWarning>
-                        <WindowAlert>120000</WindowAlert>
+                        <WindowAlert>60000</WindowAlert>
                 </MovingAverageWindow>
 		<ZoneThreshold>
 			<ZoneThresholdNormal>40000</ZoneThresholdNormal>
-			<ZoneThresholdNormal1>41500</ZoneThresholdNormal1>
-			<ZoneThresholdNormal2>43000</ZoneThresholdNormal2>
-			<ZoneThresholdNormal3>44000</ZoneThresholdNormal3>
-			<ZoneThresholdWarning>45000</ZoneThresholdWarning>
-			<ZoneThresholdAlert>60000</ZoneThresholdAlert>
+			<ZoneThresholdNormal1>43000</ZoneThresholdNormal1>
+			<ZoneThresholdNormal2>44000</ZoneThresholdNormal2>
+                        <ZoneThresholdNormal3>45000</ZoneThresholdNormal3>
+			<ZoneThresholdWarning>46000</ZoneThresholdWarning>
+			<ZoneThresholdAlert>73000</ZoneThresholdAlert>
 		</ZoneThreshold>
 		<SensorAttrib>
 			<SensorName>STR0</SensorName>
-			<Weight>1000</Weight>
 		</SensorAttrib>
-		<Offset>0</Offset>
 	</Zone>
 
 	<Zone>
 		<ZoneID>2</ZoneID>
 		<ZoneName>FrontSkin</ZoneName>
-		<ZoneLogic>VirtualSkin</ZoneLogic>
-		<SupportsUEvent>Hybrid</SupportsUEvent>
+		<ZoneLogic>Raw</ZoneLogic>
+		<SupportsUEvent>0</SupportsUEvent>
 		<SupportsEmulTemp>0</SupportsEmulTemp>
-		<DebounceInterval>1000</DebounceInterval>
+		<DebounceInterval>800</DebounceInterval>
 		<PollDelay>
-			<DelayNormal>30000</DelayNormal>
+			<DelayNormal>20000</DelayNormal>
 			<DelayNormal1>30000</DelayNormal1>
 			<DelayNormal2>30000</DelayNormal2>
-			<DelayNormal3>30000</DelayNormal3>
 			<DelayWarning>20000</DelayWarning>
 			<DelayAlert>10000</DelayAlert>
 		</PollDelay>
                 <MovingAverageWindow>
-                        <WindowNormal>120000</WindowNormal>
+                        <WindowNormal>60000</WindowNormal>
                         <WindowNormal1>120000</WindowNormal1>
                         <WindowNormal2>120000</WindowNormal2>
-                        <WindowNormal3>120000</WindowNormal3>
                         <WindowWarning>120000</WindowWarning>
                         <WindowAlert>120000</WindowAlert>
                 </MovingAverageWindow>
 		<ZoneThreshold>
-			<ZoneThresholdNormal>41000</ZoneThresholdNormal>
-			<ZoneThresholdNormal1>42000</ZoneThresholdNormal1>
-			<ZoneThresholdNormal2>43000</ZoneThresholdNormal2>
-			<ZoneThresholdNormal3>44000</ZoneThresholdNormal3>
+			<ZoneThresholdNormal>40000</ZoneThresholdNormal>
+			<ZoneThresholdNormal1>42500</ZoneThresholdNormal1>
+			<ZoneThresholdNormal2>44000</ZoneThresholdNormal2>
 			<ZoneThresholdWarning>45000</ZoneThresholdWarning>
-			<ZoneThresholdAlert>60000</ZoneThresholdAlert>
+			<ZoneThresholdAlert>73000</ZoneThresholdAlert>
 		</ZoneThreshold>
 		<SensorAttrib>
 			<SensorName>STR0</SensorName>
-			<Weight>1000</Weight>
 		</SensorAttrib>
-		<Offset>0</Offset>
 	</Zone>
+
 	<Zone>
-		<ZoneID>3</ZoneID>
-		<ZoneName>Battery</ZoneName>
-		<ZoneLogic>Raw</ZoneLogic>
-		<SupportsUEvent>Hybrid</SupportsUEvent>
-		<DebounceInterval>1000</DebounceInterval>
+		<ZoneID>4</ZoneID>
+		<ZoneName>Modem</ZoneName>
+		<ZoneLogic>Modem</ZoneLogic>
+		<SupportsUEvent>0</SupportsUEvent>
+		<DebounceInterval>2000</DebounceInterval>
 		<PollDelay>
 			<DelayNormal>30000</DelayNormal>
-			<DelayNormal1>30000</DelayNormal1>
-			<DelayNormal2>30000</DelayNormal2>
-			<DelayWarning>20000</DelayWarning>
-			<DelayAlert>10000</DelayAlert>
+			<DelayWarning>30000</DelayWarning>
+			<DelayAlert>30000</DelayAlert>
 		</PollDelay>
 		<ZoneThreshold>
-			<ZoneThresholdNormal>44000</ZoneThresholdNormal>
-			<ZoneThresholdNormal1>45000</ZoneThresholdNormal1>
-			<ZoneThresholdNormal2>47000</ZoneThresholdNormal2>
-			<ZoneThresholdWarning>49000</ZoneThresholdWarning>
-			<ZoneThresholdAlert>60000</ZoneThresholdAlert>
+			<ZoneThresholdNormal>80000</ZoneThresholdNormal>
+			<ZoneThresholdWarning>90000</ZoneThresholdWarning>
+			<ZoneThresholdAlert>95000</ZoneThresholdAlert>
 		</ZoneThreshold>
 		<SensorAttrib>
-			<SensorName>STR2</SensorName>
+			<SensorName>Modem_BB</SensorName>
+		</SensorAttrib>
+		<SensorAttrib>
+			<SensorName>Modem_RF</SensorName>
+		</SensorAttrib>
+		<SensorAttrib>
+			<SensorName>Modem_PMU</SensorName>
+		</SensorAttrib>
+		<SensorAttrib>
+			<SensorName>Modem_PA</SensorName>
 		</SensorAttrib>
 	</Zone>
 </Profile>
-<Profile>
-	<Name>Performance</Name>
-	<Zone>
-		<ZoneID>1</ZoneID>
-		<ZoneName>BackSkin</ZoneName>
-		<ZoneLogic>VirtualSkin</ZoneLogic>
-		<SupportsUEvent>Hybrid</SupportsUEvent>
-		<SupportsEmulTemp>0</SupportsEmulTemp>
-		<DebounceInterval>1000</DebounceInterval>
-		<PollDelay>
-			<DelayNormal>30000</DelayNormal>
-			<DelayNormal1>30000</DelayNormal1>
-			<DelayNormal2>30000</DelayNormal2>
-			<DelayNormal3>30000</DelayNormal3>
-			<DelayWarning>20000</DelayWarning>
-			<DelayAlert>10000</DelayAlert>
-		</PollDelay>
-                <MovingAverageWindow>
-                        <WindowNormal>120000</WindowNormal>
-                        <WindowNormal1>120000</WindowNormal1>
-                        <WindowNormal2>120000</WindowNormal2>
-                        <WindowNormal3>80000</WindowNormal3>
-                        <WindowWarning>60000</WindowWarning>
-                        <WindowAlert>40000</WindowAlert>
-                </MovingAverageWindow>
-		<ZoneThreshold>
-		<!--Warn & Alert thresholds offset by +3C due to high surface temp at idle-->
-			<ZoneThresholdNormal>45000</ZoneThresholdNormal>
-			<ZoneThresholdNormal1>46000</ZoneThresholdNormal1>
-			<ZoneThresholdNormal2>47000</ZoneThresholdNormal2>
-			<ZoneThresholdNormal3>48000</ZoneThresholdNormal3>
-			<ZoneThresholdWarning>50000</ZoneThresholdWarning>
-			<ZoneThresholdAlert>60000</ZoneThresholdAlert>
-		</ZoneThreshold>
-		<SensorAttrib>
-			<SensorName>STR0</SensorName>
-			<Weight>1000</Weight>
-		</SensorAttrib>
-		<Offset>0</Offset>
-	</Zone>
-	<Zone>
-		<ZoneID>2</ZoneID>
-		<ZoneName>FrontSkin</ZoneName>
-		<ZoneLogic>VirtualSkin</ZoneLogic>
-		<SupportsUEvent>Hybrid</SupportsUEvent>
-		<SupportsEmulTemp>0</SupportsEmulTemp>
-		<DebounceInterval>1000</DebounceInterval>
-		<PollDelay>
-			<DelayNormal>30000</DelayNormal>
-			<DelayNormal1>30000</DelayNormal1>
-			<DelayNormal2>30000</DelayNormal2>
-			<DelayNormal3>20000</DelayNormal3>
-			<DelayWarning>15000</DelayWarning>
-			<DelayAlert>10000</DelayAlert>
-		</PollDelay>
-                <MovingAverageWindow>
-                        <WindowNormal>120000</WindowNormal>
-                        <WindowNormal1>120000</WindowNormal1>
-                        <WindowNormal2>120000</WindowNormal2>
-                        <WindowNormal3>80000</WindowNormal3>
-                        <WindowWarning>60000</WindowWarning>
-                        <WindowAlert>40000</WindowAlert>
-                </MovingAverageWindow>
-		<ZoneThreshold>
-		<!--Warn & Alert thresholds offset by +3C due to high surface temp at idle-->
-			<ZoneThresholdNormal>45000</ZoneThresholdNormal>
-			<ZoneThresholdNormal1>46000</ZoneThresholdNormal1>
-			<ZoneThresholdNormal2>47000</ZoneThresholdNormal2>
-			<ZoneThresholdNormal3>48000</ZoneThresholdNormal3>
-			<ZoneThresholdWarning>50000</ZoneThresholdWarning>
-			<ZoneThresholdAlert>60000</ZoneThresholdAlert>
-		</ZoneThreshold>
-		<SensorAttrib>
-			<SensorName>STR0</SensorName>
-			<Weight>1000</Weight>
-		</SensorAttrib>
-		<Offset>0</Offset>
-	</Zone>
-	<Zone>
-		<ZoneID>3</ZoneID>
-		<ZoneName>Battery</ZoneName>
-		<ZoneLogic>Raw</ZoneLogic>
-		<SupportsUEvent>Hybrid</SupportsUEvent>
-		<DebounceInterval>1000</DebounceInterval>
-		<PollDelay>
-			<DelayNormal>30000</DelayNormal>
-			<DelayNormal1>30000</DelayNormal1>
-			<DelayNormal2>30000</DelayNormal2>
-			<DelayWarning>20000</DelayWarning>
-			<DelayAlert>10000</DelayAlert>
-		</PollDelay>
-		<ZoneThreshold>
-			<ZoneThresholdNormal>44000</ZoneThresholdNormal>
-			<ZoneThresholdNormal1>46000</ZoneThresholdNormal1>
-			<ZoneThresholdNormal2>48000</ZoneThresholdNormal2>
-			<ZoneThresholdWarning>50000</ZoneThresholdWarning>
-			<ZoneThresholdAlert>60000</ZoneThresholdAlert>
-		</ZoneThreshold>
-		<SensorAttrib>
-			<SensorName>STR2</SensorName>
-		</SensorAttrib>
-	</Zone>
-</Profile>
+
 </thermalconfig>

@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <SUBSYSTEM description="Audio system" name="audio" path="/Audio">
     <SUBSYSTEM description="Audio Low Power Engine DSP" name="sst" path="/Audio/sst" type="t_sst_tangier">
+        <SUBSYSTEM description="Modem downlink processing" name="modem_in" path="/Audio/sst/pipe/modem_in" type="t_subsyst_0_in_1_out">
+            <UI_ELEM name="modem_in_ssp_in" type="t_ui_0_in_1_out"/>
+            <MODULE name="modem_in_gain" path="/Audio/sst/pipe/modem_in/gain" type="t_gain"/>
+            <MODULE name="modem_in_dcr" path="/Audio/sst/pipe/modem_in/dcr" type="t_dcr"/>
+            <UI_ELEM name="modem_in_pipe_out" type="t_ui_1_in_0_out"/>
+            <LINK name="">
+                <FROM module="modem_in_ssp_in" output="out0"/>
+                <TO module="modem_in_gain" input="in0"/>
+            </LINK>
+            <LINK name="">
+                <FROM module="modem_in_gain" output="out0"/>
+                <TO module="modem_in_dcr" input="in0"/>
+            </LINK>
+            <LINK name="">
+                <FROM module="modem_in_dcr" output="out0"/>
+                <TO module="modem_in_pipe_out" input="in0"/>
+            </LINK>
+        </SUBSYSTEM>
+        <SUBSYSTEM description="Modem uplink processing" name="modem_out" path="/Audio/sst/pipe/modem_out" type="t_subsyst_1_in_0_out">
+            <UI_ELEM name="modem_out_pipe_in" type="t_ui_0_in_1_out"/>
+            <MODULE name="modem_out_gain" orientation="WEST" path="/Audio/sst/pipe/modem_out/gain" type="t_gain"/>
+            <UI_ELEM name="modem_out_ssp_out" type="t_ui_1_in_0_out"/>
+            <LINK name="">
+                <FROM module="modem_out_pipe_in" output="out0"/>
+                <TO module="modem_out_gain" input="in0"/>
+            </LINK>
+            <LINK name="">
+                <FROM module="modem_out_gain" output="out0"/>
+                <TO module="modem_out_ssp_out" input="in0"/>
+            </LINK>
+        </SUBSYSTEM>
         <SUBSYSTEM description="Bt rx processing" name="bt_in" path="/Audio/sst/pipe/cws_in/bt" type="t_subsyst_0_in_1_out">
             <UI_ELEM name="bt_in_ssp_in" type="t_ui_0_in_1_out"/>
             <MODULE name="bt_in_gain" path="/Audio/sst/pipe/cws_in/bt/gain" type="t_gain"/>
@@ -133,41 +164,19 @@
                 <TO module="pcm_deep_pipe_out" input="in0"/>
             </LINK>
         </SUBSYSTEM>
-        <SUBSYSTEM description="Record" name="pcm_record" path="/Audio/sst/pipe/pcm1_out" type="t_subsyst_1_in_0_out">
+        <SUBSYSTEM description="Record" name="pcm_record" path="/Audio/sst/pipe/pcm_record" type="t_subsyst_1_in_0_out">
             <UI_ELEM name="pcm_rec_pcm1_pipe_in" type="t_ui_0_in_1_out"/>
             <UI_ELEM name="pcm_rec_pipe_out" type="t_ui_1_in_0_out"/>
-            <MODULE name="pcm_rec_agc" path="/Audio/sst/pipe/pcm_record/agc" type="t_agca"/>
-            <MODULE name="pcm_rec_mdrc" path="/Audio/sst/pipe/pcm_record/mdrc" type="t_mdrc"/>
-            <MODULE name="pcm_rec_wnr" path="/Audio/sst/pipe/pcm_record/wnr" type="t_wnr"/>
             <UI_ELEM name="pcm_rec_pcm3_pipe_in" type="t_ui_0_in_1_out"/>
             <MODULE name="pcm_rec_mic_1_2_gain" path="/Audio/sst/pipe/pcm_record/mic_1_2/gain" type="t_gain"/>
             <MODULE name="pcm_rec_mic_3_4_gain" path="/Audio/sst/pipe/pcm_record/mic_3_4/gain" type="t_gain"/>
-            <MODULE name="pcm_rec_mic_1_2_eq" path="/Audio/sst/pipe/pcm_record/mic_1_2/equalizer" type="t_equalizer"/>
-            <MODULE name="pcm_rec_mic_3_4_eq" path="/Audio/sst/pipe/pcm_record/mic_3_4/equalizer" type="t_equalizer"/>
-            <MODULE name="pcm_rec_bmf" path="/Audio/sst/pipe/pcm_record/bmf" type="t_bmfa"/>
-            <LINK name="">
-                <FROM module="pcm_rec_agc" output="out0" position=""/>
-                <TO module="pcm_rec_pipe_out" input="in0" position=""/>
-            </LINK>
-            <LINK name="">
-                <FROM module="pcm_rec_mdrc" output="out0" position=""/>
-                <TO module="pcm_rec_agc" input="in0" position=""/>
-            </LINK>
-            <LINK name="">
-                <FROM module="pcm_rec_wnr" output="out0" position=""/>
-                <TO module="pcm_rec_mdrc" input="in0" position=""/>
-            </LINK>
             <LINK name="">
                 <FROM module="pcm_rec_pcm1_pipe_in" output="out0" position=""/>
                 <TO module="pcm_rec_mic_1_2_gain" input="in0"/>
             </LINK>
             <LINK name="">
                 <FROM module="pcm_rec_mic_1_2_gain" output="out0" position=""/>
-                <TO module="pcm_rec_mic_1_2_eq" input="in0"/>
-            </LINK>
-            <LINK name="">
-                <FROM module="pcm_rec_mic_1_2_eq" output="out0" position=""/>
-                <TO module="pcm_rec_bmf" input="in0" position="LEFT"/>
+                <TO module="pcm_rec_pipe_out" input="in0"/>
             </LINK>
             <LINK name="">
                 <FROM module="pcm_rec_pcm3_pipe_in" output="out0" position=""/>
@@ -175,15 +184,7 @@
             </LINK>
             <LINK name="">
                 <FROM module="pcm_rec_mic_3_4_gain" output="out0" position=""/>
-                <TO module="pcm_rec_mic_3_4_eq" input="in0"/>
-            </LINK>
-            <LINK name="">
-                <FROM module="pcm_rec_mic_3_4_eq" output="out0" position=""/>
-                <TO module="pcm_rec_bmf" input="in1" position="LEFT"/>
-            </LINK>
-            <LINK name="">
-                <FROM module="pcm_rec_bmf" output="out0" position=""/>
-                <TO module="pcm_rec_wnr" input="in0" position=""/>
+                <TO module="pcm_rec_pipe_out" input="in0"/>
             </LINK>
         </SUBSYSTEM>
         <SUBSYSTEM description="VoIP playback" name="voip_in" path="/Audio/sst/pipe/voip_in" type="t_subsyst_0_in_1_out">
@@ -276,186 +277,242 @@
                 <TO module="mic_eq_pipe_out" input="in0"/>
             </LINK>
         </SUBSYSTEM>
-        <SUBSYSTEM description="Voice processing" name="speech_link" path="/Audio/sst/pipe/tx_speech_loop" type="t_subsyst_3_in_2_out">
-            <UI_ELEM name="speech_ul_pipe_in" type="t_ui_1_in_0_out"/>
-            <MODULE name="speech_ul_in_gain" orientation="WEST" path="/Audio/sst/pipe/tx_speech_loop/out_gain" type="t_gain"/>
+        <SUBSYSTEM description="Microphone equalization" name="speech_uplink" path="/Audio/sst/pipe/tx_speech_loop" type="t_subsyst_3_in_2_out">
+            <UI_ELEM name="speech_ul_pipe_in" type="t_ui_0_in_1_out"/>
+            <MODULE name="speech_ul_in_gain" orientation="WEST" path="/Audio/sst/pipe/tx_speech_loop/in_gain" type="t_gain"/>
+            <MODULE name="speech_ul_equalizer_main" path="/Audio/sst/pipe/tx_speech_loop/equalizer" type="t_equalizer_speech"/>
+            <MODULE name="speech_ul_equalizer_hf_sns2" path="/Audio/sst/pipe/hf_sns2/equalizer" type="t_equalizer_speech"/>
             <MODULE name="speech_ul_hf_sns_gain" path="/Audio/sst/pipe/hf_sns2/gain" type="t_gain"/>
-            <MODULE name="speech_ul_hf_gain" orientation="EAST" path="/Audio/sst/pipe/hf_ref/gain" type="t_gain"/>
-            <MODULE name="speech_ul_out_gain" path="/Audio/sst/pipe/tx_speech_loop/in_gain" type="t_gain"/>
-            <MODULE name="speech_ul_sidetone_gain" orientation="WEST" path="/Audio/sst/pipe/sidetone/gain" type="t_gain"/>
-            <MODULE name="speech_ul_sidetone_equalizer" path="/Audio/sst/pipe/sidetone/iir" type="t_iir"/>
+            <MODULE name="speech_ul_hf_gain" path="/Audio/sst/pipe/hf_ref/gain" type="t_gain"/>
+            <MODULE name="speech_ul_nlf" path="/Audio/sst/pipe/tx_speech_loop/nlf" type="t_nlf"/>
+            <MODULE name="speech_ul_bmf" path="/Audio/sst/pipe/tx_speech_loop/bmf" type="t_bmf"/>
+            <MODULE name="speech_ul_aec" path="/Audio/sst/pipe/tx_speech_loop/aec" type="t_aec"/>
+            <MODULE name="speech_ul_nr_dnr" path="/Audio/sst/pipe/tx_speech_loop/nr_dnr" type="t_nr_dnr"/>
+            <MODULE name="speech_ul_tnr" path="/Audio/sst/pipe/tx_speech_loop/tnr" type="t_tnr"/>
+            <MODULE name="speech_ul_wnr" path="/Audio/sst/pipe/tx_speech_loop/wnr" type="t_wnr"/>
+            <MODULE name="speech_ul_cni" path="/Audio/sst/pipe/tx_speech_loop/cni" type="t_tx_cni"/>
+            <MODULE name="speech_ul_ser" path="/Audio/sst/pipe/tx_speech_loop/ser" type="t_ser"/>
+            <MODULE name="speech_ul_agc" path="/Audio/sst/pipe/tx_speech_loop/agc" type="t_agc"/>
+            <MODULE name="speech_ul_edl" path="/Audio/sst/pipe/tx_speech_loop/edl" type="t_edl"/>
+            <MODULE name="speech_ul_drp" path="/Audio/sst/pipe/tx_speech_loop/drp" type="t_ul_drp"/>
+            <MODULE name="speech_ul_ref_line" path="/Audio/sst/pipe/tx_speech_loop/ref_line" type="t_ref_line"/>
+            <MODULE name="speech_ul_ul_gain" orientation="SOUTH" path="/Audio/sst/pipe/tx_speech_loop/ul_gain" type="t_gain"/>
+            <MODULE name="speech_ul_out_gain" path="/Audio/sst/pipe/tx_speech_loop/out_gain" type="t_gain"/>
+            <MODULE name="speech_ul_sidetone_gain" path="/Audio/sst/pipe/sidetone/gain" type="t_gain"/>
+            <MODULE name="speech_ul_sidetone_equalizer" path="/Audio/sst/pipe/sidetone/equalizer/iir" type="t_iir"/>
+            <UI_ELEM name="speech_ul_cni_mixer1" type="mixer"/>
+            <UI_ELEM name="speech_ul_cni_mixer2" type="mixer"/>
             <UI_ELEM name="speech_ul_pipe_out" type="t_ui_1_in_0_out"/>
+            <UI_ELEM name="speech_ul_pipe_hf_in" type="t_ui_1_in_0_out"/>
             <UI_ELEM name="speech_ul_pipe_hf_sns2_in" type="t_ui_1_in_0_out"/>
-            <MODULE name="fortemedia_mic_pga" path="/Audio/sst/pipe/rx_speech_loop/forte_media/Mic_PGA" type="t_fortemedia_ul"/>
-            <UI_ELEM name="speech_dl_pipe_out2" orientation="WEST" type="t_ui_1_in_0_out"/>
-            <UI_ELEM name="speech_dl_pipe_in2" type="t_ui_0_in_1_out"/>
-            <MODULE name="speech_dl_in_gain2" orientation="WEST" path="/Audio/sst/pipe/rx_speech_loop/out_gain" type="t_gain"/>
-            <MODULE name="speech_dl_out_gain" orientation="WEST" path="/Audio/sst/pipe/rx_speech_loop/in_gain" type="t_gain"/>
-            <MODULE name="fortemedia_dl_pre_proc" path="/Audio/sst/pipe/rx_speech_loop/forte_media/RCV_PRE_PROC" type="t_fortemedia_dl"/>
-            <MODULE name="foretemdia_ul_pre_proc" path="/Audio/sst/pipe/rx_speech_loop/forte_media/PRE_PROC" type="t_fortemedia_ul"/>
-            <MODULE name="fortemedia_aec" path="/Audio/sst/pipe/rx_speech_loop/forte_media/AEC" type="t_aec"/>
-            <MODULE name="fortemedia_BFHS" path="/Audio/sst/pipe/rx_speech_loop/forte_media/BFHS" type="t_fortemedia_ul"/>
-            <MODULE name="fortemedia_BFHF" path="/Audio/sst/pipe/rx_speech_loop/forte_media/BFHF" type="t_fortemedia_ul"/>
-            <MODULE name="fortemedia_DT" path="/Audio/sst/pipe/rx_speech_loop/forte_media/DT" type="t_fortemedia_ul"/>
-            <MODULE name="fortemedia_NS" path="/Audio/sst/pipe/rx_speech_loop/forte_media/NS" type="t_fortemedia_ul"/>
-            <MODULE name="fortemedia_BVE" path="/Audio/sst/pipe/rx_speech_loop/forte_media/BVE" type="t_fortemedia_ul"/>
-            <MODULE name="fortemedia_Lout_EQ" path="/Audio/sst/pipe/rx_speech_loop/forte_media/LOUT_EQ" type="t_equalizer"/>
-            <MODULE name="fortemedia_FFP" path="/Audio/sst/pipe/rx_speech_loop/forte_media/FFP" type="t_nlf"/>
-            <MODULE name="fortemedia_Lout_Gain" path="/Audio/sst/pipe/rx_speech_loop/forte_media/Lout_Gain" type="t_gain"/>
-            <MODULE name="fortemedia_Lout_DRC" path="/Audio/sst/pipe/rx_speech_loop/forte_media/Lout_DRC" type="t_dcr"/>
-            <MODULE name="fortemedia_Lout_HPF" path="/Audio/sst/pipe/rx_speech_loop/forte_media/Lout_HPF" type="t_fortemedia_ul"/>
-            <MODULE name="fortemedia_FENS" path="/Audio/sst/pipe/rx_speech_loop/forte_media/FENS" type="t_fortemedia_dl"/>
-            <MODULE name="fortemedia_Spk_EQ" path="/Audio/sst/pipe/rx_speech_loop/forte_media/SPK_EQ" type="t_equalizer"/>
-            <MODULE name="fortemedia_Spk_ATTN" path="/Audio/sst/pipe/rx_speech_loop/forte_media/SPK_ATTN" type="t_fortemedia_dl"/>
-            <MODULE name="fortemedia_Spk_Gain" orientation="WEST" path="/Audio/sst/pipe/rx_speech_loop/forte_media/Spk_GAIN" type="t_gain"/>
-            <MODULE name="fortemdia_Spk_DRC" path="/Audio/sst/pipe/rx_speech_loop/forte_media/SPK_DRC" type="t_dcr"/>
-            <MODULE name="fortemdia_HMNC" path="/Audio/sst/pipe/rx_speech_loop/forte_media/HMMC" type="t_fortemedia_dl"/>
-            <MODULE name="fortemdia_Spk_HPF" path="/Audio/sst/pipe/rx_speech_loop/forte_media/SPK_HPF" type="t_fortemedia_dl"/>
-            <MODULE name="fortemedia_Module_conf" path="/Audio/sst/pipe/rx_speech_loop/forte_media/Module_Configuration" type="t_fortemedia_ul"/>
-            <MODULE name="fortemedia_MIC_Conf" path="/Audio/sst/pipe/rx_speech_loop/forte_media/Mic_Configuration" type="t_fortemedia_ul"/>
-            <MODULE name="fortemedia_reserve1" path="/Audio/sst/pipe/rx_speech_loop/forte_media/Reserve1" type="t_fortemedia_ul"/>
-            <MODULE name="fortemedia_reserve2" path="/Audio/sst/pipe/rx_speech_loop/forte_media/Reserve2" type="t_fortemedia_ul"/>
-            <MODULE name="fortemedia_reserve3" path="/Audio/sst/pipe/rx_speech_loop/forte_media/Reserve3" type="t_fortemedia_ul"/>
-            <MODULE name="fortemedia_all_params" path="/Audio/sst/pipe/rx_speech_loop/forte_media" type="t_ref_line"/>
+            <UI_ELEM name="speech_ul_pipe_hf_sns3_in" type="t_ui_1_in_0_out"/>
+            <UI_ELEM name="speech_ul_pipe_hf_sns4_in" type="t_ui_1_in_0_out"/>
+            <UI_ELEM name="speech_ul_pipe_sidetone_out" type="t_ui_0_in_1_out"/>
+            <UI_ELEM name="speech_ul_aec_to_ana" type="t_ui_1_in_0_out"/>
             <LINK name="">
-                <FROM module="fortemdia_Spk_HPF" output="out0" position=""/>
-                <TO module="speech_dl_out_gain" input="in0" position=""/>
+                <FROM module="speech_ul_aec" output="out0"/>
+                <TO module="speech_ul_aec_to_ana" input="in0"/>
+            </LINK>
+            <LINK name="">
+                <FROM module="speech_ul_pipe_in" output="out0" position="RIGHT"/>
+                <TO module="speech_ul_sidetone_gain" input="in0"/>
+            </LINK>
+            <LINK name="">
+                <FROM module="speech_ul_sidetone_gain" output="out0"/>
+                <TO module="speech_ul_sidetone_equalizer" input="in0"/>
+            </LINK>
+            <LINK name="">
+                <FROM module="speech_ul_sidetone_equalizer" output="out0" position="DOWN"/>
+                <TO module="speech_ul_pipe_sidetone_out" input="in0"/>
+            </LINK>
+            <LINK name="">
+                <FROM module="speech_ul_pipe_in" output="out0" position="RIGHT"/>
+                <TO module="speech_ul_out_gain" input="in0"/>
+            </LINK>
+            <LINK name="">
+                <FROM module="speech_ul_out_gain" output="out0"/>
+                <TO module="speech_ul_equalizer_main" input="in0"/>
+            </LINK>
+            <LINK name="">
+                <FROM module="speech_ul_equalizer_main" output="out0" position="RIGHT"/>
+                <TO module="speech_ul_bmf" input="in0" position="LEFT"/>
             </LINK>
             <LINK name="">
                 <FROM module="speech_ul_pipe_hf_sns2_in" output="out0"/>
                 <TO module="speech_ul_hf_sns_gain" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="speech_ul_out_gain" output="out0" position=""/>
-                <TO module="fortemedia_mic_pga" input="Mic1" position=""/>
+                <FROM module="speech_ul_hf_sns_gain" output="out0"/>
+                <TO module="speech_ul_equalizer_hf_sns2" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="speech_ul_hf_sns_gain" output="out0" position=""/>
-                <TO module="fortemedia_mic_pga" input="Mic2" position=""/>
+                <FROM module="speech_ul_equalizer_hf_sns2" output="out0" position="RIGHT"/>
+                <TO module="speech_ul_bmf" input="in1" position="LEFT"/>
             </LINK>
             <LINK name="">
-                <FROM module="speech_dl_pipe_in2" output="out0" position=""/>
-                <TO module="speech_dl_in_gain2" input="in0"/>
+                <FROM module="speech_ul_bmf" output="out0"/>
+                <TO module="speech_ul_aec" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="speech_dl_out_gain" output="" position=""/>
-                <TO module="speech_ul_hf_gain" input="" position="LEFT"/>
+                <FROM module="speech_ul_aec" output="out0"/>
+                <TO module="speech_ul_nr_dnr" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="speech_ul_pipe_in" output="" position=""/>
-                <TO module="speech_ul_sidetone_equalizer" input="" position="BOTTOM"/>
+                <FROM module="speech_ul_nr_dnr" output="out0"/>
+                <TO module="speech_ul_tnr" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="speech_ul_sidetone_equalizer" output="" position=""/>
-                <TO module="speech_ul_sidetone_gain" input=""/>
+                <FROM module="speech_ul_tnr" output="out0"/>
+                <TO module="speech_ul_wnr" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="speech_ul_sidetone_gain" output="" position=""/>
-                <TO module="speech_dl_pipe_out2" input="" position="UP"/>
+                <FROM module="speech_ul_wnr" output="out0"/>
+                <TO module="speech_ul_ser" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="speech_dl_out_gain" output="" position=""/>
-                <TO module="speech_dl_pipe_out2" input=""/>
+                <FROM module="speech_ul_cni" output="out0" position="DOWN"/>
+                <TO module="speech_ul_cni_mixer2" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="fortemedia_mic_pga" output="" position=""/>
-                <TO module="foretemdia_ul_pre_proc" input="" position=""/>
+                <FROM module="speech_ul_cni" output="out0" position="RIGHT"/>
+                <TO module="speech_ul_cni_mixer1" input="in0" position="DOWN"/>
             </LINK>
             <LINK name="">
-                <FROM module="foretemdia_ul_pre_proc" output="" position=""/>
-                <TO module="fortemedia_aec" input="" position=""/>
+                <FROM module="speech_ul_cni_mixer2" output="out0" position="DOWN"/>
+                <TO module="speech_ul_in_gain" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="speech_ul_hf_gain" output="" position="RIGHT"/>
-                <TO module="fortemedia_aec" input="" position="UP"/>
+                <FROM module="speech_ul_ser" output="out0"/>
+                <TO module="speech_ul_agc" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="foretemdia_ul_pre_proc" output="" position=""/>
-                <TO module="fortemedia_BFHS" input="" position="LEFT"/>
+                <FROM module="speech_ul_agc" output="out0"/>
+                <TO module="speech_ul_cni_mixer1" input="in1"/>
             </LINK>
             <LINK name="">
-                <FROM module="foretemdia_ul_pre_proc" output="" position=""/>
-                <TO module="fortemedia_BFHF" input="" position="LEFT"/>
+                <FROM module="speech_ul_agc" output="out1"/>
+                <TO module="speech_ul_cni" input="out0"/>
             </LINK>
             <LINK name="">
-                <FROM module="fortemedia_aec" output="" position=""/>
-                <TO module="fortemedia_DT" input="" position=""/>
+                <FROM module="speech_ul_cni_mixer1" output="out0"/>
+                <TO module="speech_ul_drp" input="out0"/>
             </LINK>
             <LINK name="">
-                <FROM module="fortemedia_BFHS" output="" position=""/>
-                <TO module="fortemedia_NS" input="" position=""/>
+                <FROM module="speech_ul_drp" output="out0"/>
+                <TO module="speech_ul_ul_gain" input="out0"/>
             </LINK>
             <LINK name="">
-                <FROM module="fortemedia_BFHF" output="" position=""/>
-                <TO module="fortemedia_BVE" input="" position=""/>
+                <FROM module="speech_ul_ul_gain" output="out0"/>
+                <TO module="speech_ul_cni_mixer2" input="in1"/>
             </LINK>
             <LINK name="">
-                <FROM module="fortemedia_DT" output="" position=""/>
-                <TO module="fortemedia_Lout_EQ" input="" position=""/>
+                <FROM module="speech_ul_in_gain" output="out0"/>
+                <TO module="speech_ul_pipe_out" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="fortemedia_NS" output="" position=""/>
-                <TO module="fortemedia_FFP" input="" position=""/>
+                <FROM module="speech_ul_pipe_hf_in" output="out0"/>
+                <TO module="speech_ul_hf_gain" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="fortemedia_BVE" output="" position=""/>
-                <TO module="fortemedia_Lout_Gain" input="" position=""/>
+                <FROM module="speech_ul_hf_gain" output="out0"/>
+                <TO module="speech_ul_nlf" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="fortemedia_Lout_EQ" output="" position=""/>
-                <TO module="fortemedia_Lout_DRC" input="" position="LEFT"/>
+                <FROM module="speech_ul_nlf" output="out0"/>
+                <TO module="speech_ul_edl" input="in0" position="UP"/>
             </LINK>
             <LINK name="">
-                <FROM module="fortemedia_Lout_Gain" output="" position="RIGHT"/>
-                <TO module="fortemedia_Lout_DRC" input="" position="BOTTOM"/>
+                <FROM module="speech_ul_edl" output="out0"/>
+                <TO module="speech_ul_ref_line" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="fortemedia_FFP" output="" position="RIGHT"/>
-                <TO module="fortemedia_Lout_DRC" input="" position="BOTTOM"/>
+                <FROM module="speech_ul_ref_line" output="out0" position="DOWN"/>
+                <TO module="speech_ul_aec" input="in1" position="UP"/>
             </LINK>
             <LINK name="">
-                <FROM module="fortemedia_Lout_DRC" output="" position=""/>
-                <TO module="fortemedia_Lout_HPF" input="" position=""/>
+                <FROM module="speech_ul_ref_line" output="out2" position="DOWN"/>
+                <TO module="speech_ul_agc" input="in1" position="UP"/>
             </LINK>
             <LINK name="">
-                <FROM module="speech_dl_in_gain2" output="" position=""/>
-                <TO module="fortemedia_dl_pre_proc" input="" position=""/>
+                <FROM module="speech_ul_ref_line" output="out1" position="DOWN"/>
+                <TO module="speech_ul_ser" input="in1" position="UP"/>
+            </LINK>
+            <LINK>
+                <FROM module="speech_ul_bmf" output="out1"/>
+                <TO module="speech_ul_nr_dnr" input="in1" position="UP"/>
+            </LINK>
+        </SUBSYSTEM>
+        <SUBSYSTEM description="Microphone equalization" name="speech_downlink" path="/Audio/sst/pipe/rx_speech_loop" type="t_subsyst_1_in_1_out">
+            <UI_ELEM name="speech_dl_pipe_in" type="t_ui_0_in_1_out"/>
+            <UI_ELEM name="speech_dl_pipe_out" type="t_ui_1_in_0_out"/>
+            <UI_ELEM name="speech_dl_cni_mixer" type="mixer"/>
+            <UI_ELEM name="speech_dl_from_uplink_aec" type="t_ui_0_in_1_out"/>
+            <MODULE name="speech_dl_out_gain" path="/Audio/sst/pipe/rx_speech_loop/out_gain" type="t_gain"/>
+            <MODULE name="speech_dl_nr" path="/Audio/sst/pipe/rx_speech_loop/nr" type="t_nr"/>
+            <MODULE name="speech_dl_slv" path="/Audio/sst/pipe/rx_speech_loop/slv" type="t_slv"/>
+            <MODULE name="speech_dl_bwx" path="/Audio/sst/pipe/rx_speech_loop/bwx" type="t_bwx"/>
+            <MODULE name="speech_dl_tnr" path="/Audio/sst/pipe/rx_speech_loop/tnr" type="t_tnr"/>
+            <MODULE name="speech_dl_mdrp" path="/Audio/sst/pipe/rx_speech_loop/mdrp" type="t_mdrp"/>
+            <MODULE name="speech_dl_glc" path="/Audio/sst/pipe/rx_speech_loop/glc" type="t_glc"/>
+            <MODULE name="speech_dl_ana_drp" path="/Audio/sst/pipe/rx_speech_loop/ana_drp" type="t_ana_drp"/>
+            <MODULE name="speech_dl_cni" path="/Audio/sst/pipe/rx_speech_loop/cni" type="t_rx_cni"/>
+            <MODULE name="speech_dl_equalizer" path="/Audio/sst/pipe/rx_speech_loop/equalizer" type="t_equalizer_speech"/>
+            <MODULE name="speech_dl_in_gain" orientation="WEST" path="/Audio/sst/pipe/rx_speech_loop/in_gain" type="t_gain"/>
+            <LINK name="">
+                <FROM module="speech_dl_pipe_in" output="out0"/>
+                <TO module="speech_dl_out_gain" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="fortemedia_dl_pre_proc" output="" position=""/>
-                <TO module="fortemedia_FENS" input="" position=""/>
+                <FROM module="speech_dl_out_gain" output="out0"/>
+                <TO module="speech_dl_nr" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="fortemedia_FENS" output="" position=""/>
-                <TO module="fortemedia_Spk_EQ" input="" position=""/>
+                <FROM module="speech_dl_nr" output="out0"/>
+                <TO module="speech_dl_tnr" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="fortemedia_Spk_EQ" output="" position=""/>
-                <TO module="fortemedia_Spk_ATTN" input="" position=""/>
+                <FROM module="speech_dl_tnr" output="out0"/>
+                <TO module="speech_dl_slv" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="fortemedia_Spk_ATTN" output="" position=""/>
-                <TO module="fortemedia_Spk_Gain" input="" position=""/>
+                <FROM module="speech_dl_slv" output="out0"/>
+                <TO module="speech_dl_bwx" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="fortemedia_Spk_Gain" output="" position=""/>
-                <TO module="fortemdia_Spk_DRC" input="" position=""/>
+                <FROM module="speech_dl_bwx" output="out0"/>
+                <TO module="speech_dl_mdrp" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="fortemdia_Spk_DRC" output="" position=""/>
-                <TO module="fortemdia_HMNC" input="" position=""/>
+                <FROM module="speech_dl_mdrp" output="out0"/>
+                <TO module="speech_dl_ana_drp" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="fortemdia_HMNC" output="" position="LEFT"/>
-                <TO module="fortemdia_Spk_HPF" input="" position=""/>
+                <FROM module="speech_dl_ana_drp" output="out0"/>
+                <TO module="speech_dl_glc" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="fortemedia_Lout_HPF" output="" position="DOWN"/>
-                <TO module="speech_ul_in_gain" input="" position="RIGHT"/>
+                <FROM module="speech_dl_glc" output="out0"/>
+                <TO module="speech_dl_cni_mixer" input="in0"/>
             </LINK>
             <LINK name="">
-                <FROM module="speech_ul_in_gain" output="" position=""/>
-                <TO module="speech_ul_pipe_out" input="" position=""/>
+                <FROM module="speech_dl_cni_mixer" output="out0"/>
+                <TO module="speech_dl_equalizer" input="in0"/>
+            </LINK>
+            <LINK name="">
+                <FROM module="speech_dl_equalizer" output="out0"/>
+                <TO module="speech_dl_in_gain" input="in0"/>
+            </LINK>
+            <LINK name="">
+                <FROM module="speech_dl_from_uplink_aec" output="out0"/>
+                <TO module="speech_dl_ana_drp" input="in0"/>
+            </LINK>
+            <LINK name="">
+                <FROM module="speech_dl_cni" output="out0"/>
+                <TO module="speech_dl_cni_mixer" input="in0"/>
+            </LINK>
+            <LINK name="">
+                <FROM module="speech_dl_in_gain" output="out0"/>
+                <TO module="speech_dl_pipe_out" input="in0"/>
             </LINK>
         </SUBSYSTEM>
         <SUBSYSTEM description="Tone generator" name="tone_generator" path="/Audio/sst/pipe/tone_in" type="t_subsyst_0_in_1_out">
@@ -485,6 +542,14 @@
         <SUBSYSTEM description="Main switch matrix" name="main_matrix" path="/Audio/sst/main_mixer" type="t_main_matrix">
             <UI_ELEM name="main_matrix TO BE IMPLEMENTED" type="t_ui_0_in_0_out"/>
         </SUBSYSTEM>
+        <LINK>
+            <FROM module="modem_in" output="out0" position="RIGHT"/>
+            <TO module="main_matrix" input="modem_in"/>
+        </LINK>
+        <LINK>
+            <FROM module="main_matrix" output="modem_out"/>
+            <TO module="modem_out" input="in0" position="RIGHT"/>
+        </LINK>
         <LINK>
             <FROM module="bt_in" output="out0" position="RIGHT"/>
             <TO module="main_matrix" input="bt_in"/>
@@ -534,24 +599,32 @@
             <TO module="main_matrix" input="media_loop2_in"/>
         </LINK>
         <LINK>
-            <FROM module="speech_link" output="out1" position="LEFT"/>
+            <FROM module="speech_uplink" output="out1" position="LEFT"/>
             <TO module="main_matrix" input="sidetone_in"/>
         </LINK>
         <LINK>
-            <FROM module="speech_link" output="out0" position="LEFT"/>
+            <FROM module="speech_uplink" output="out0" position="LEFT"/>
             <TO module="main_matrix" input="tx_speech_in"/>
         </LINK>
         <LINK>
             <FROM module="main_matrix" output="hf_sns_out_out"/>
-            <TO module="speech_link" input="in0" position="LEFT"/>
+            <TO module="speech_uplink" input="in0" position="LEFT"/>
         </LINK>
         <LINK>
             <FROM module="main_matrix" output="hf_out_out"/>
-            <TO module="speech_link" input="in1" position="LEFT"/>
+            <TO module="speech_uplink" input="in1" position="LEFT"/>
         </LINK>
         <LINK>
             <FROM module="main_matrix" output="speech_out"/>
-            <TO module="speech_link" input="in2" position="LEFT"/>
+            <TO module="speech_uplink" input="in2" position="LEFT"/>
+        </LINK>
+        <LINK>
+            <FROM module="speech_downlink" output="out0" position="LEFT"/>
+            <TO module="main_matrix" input="speech_in"/>
+        </LINK>
+        <LINK>
+            <FROM module="main_matrix" output="rx_speech_out"/>
+            <TO module="speech_downlink" input="in0" position="LEFT"/>
         </LINK>
         <LINK>
             <FROM module="tone_generator" output="out0" position="LEFT"/>
@@ -730,6 +803,78 @@
             <TO module="outputs" input="in0"/>
         </LINK>
     </SUBSYSTEM>
+    <SUBSYSTEM description="Modem baseband" name="xmm7260" path="/Audio/IMC" type="t_modem_xmm7260">
+        <UI_ELEM name="xmm7260_I2S_1_RX" type="t_ui_0_in_1_out"/>
+        <UI_ELEM name="xmm7260_I2S_1_TX" type="t_ui_1_in_0_out"/>
+        <UI_ELEM name="xmm7260_I2S_2_RX" type="t_ui_0_in_1_out"/>
+        <UI_ELEM name="xmm7260_I2S_2_TX" type="t_ui_1_in_0_out"/>
+        <UI_ELEM name="xmm7260_Tone_Gen" type="t_ui_0_in_1_out"/>
+        <MODULE name="xmm7260_I2S_2_RX_Volume" path="/Audio/IMC/SOUND_CARD/PORTS/I2S2/RX/VOLUME" type="t_gain"/>
+        <MODULE name="xmm7260_I2S_2_TX_Volume" orientation="WEST" path="/Audio/IMC/SOUND_CARD/PORTS/I2S2/TX/VOLUME" type="t_gain"/>
+        <UI_ELEM name="xmm7260_SWM" type="t_ui_1_in_1_out"/>
+        <MODULE name="xmm7260_Tone_Volume" path="/Audio/IMC/SOUND_CARD/PORTS/SIMPLE_TONES/VOLUME" type="t_gain"/>
+        <UI_ELEM name="xmm7260_SPEECH_RX" orientation="WEST" type="t_ui_1_in_1_out"/>
+        <MODULE name="xmm7260_SPEECH_RX_Volume" orientation="WEST" path="/Audio/IMC/SOUND_CARD/PORTS/SPEECH/RX/VOLUME" type="t_gain"/>
+        <MODULE name="xmm7260_SPEECH_TX_Volume" path="/Audio/IMC/SOUND_CARD/PORTS/SPEECH/TX/VOLUME" type="t_gain"/>
+        <UI_ELEM name="xmm7260_SPEECH_TX" type="t_ui_1_in_1_out"/>
+        <UI_ELEM name="xmm7260_Network" type="t_ui_1_in_1_out"/>
+        <LINK>
+            <FROM module="xmm7260_I2S_1_RX" output="out0" position="RIGHT"/>
+            <TO module="xmm7260_SWM" input="in0" position="LEFT"/>
+        </LINK>
+        <LINK>
+            <FROM module="xmm7260_SWM" output="out0"/>
+            <TO module="xmm7260_I2S_1_TX" input="in0"/>
+        </LINK>
+        <LINK>
+            <FROM module="xmm7260_I2S_2_RX" output="out0"/>
+            <TO module="xmm7260_I2S_2_RX_Volume" input="in0"/>
+        </LINK>
+        <LINK>
+            <FROM module="xmm7260_I2S_2_RX_Volume" output="out0"/>
+            <TO module="xmm7260_SWM" input="in0"/>
+        </LINK>
+        <LINK>
+            <FROM module="xmm7260_SWM" output="out0"/>
+            <TO module="xmm7260_I2S_2_TX_Volume" input="in0"/>
+        </LINK>
+        <LINK>
+            <FROM module="xmm7260_I2S_2_TX_Volume" output="out0"/>
+            <TO module="xmm7260_I2S_2_TX" input="in0"/>
+        </LINK>
+        <LINK>
+            <FROM module="xmm7260_Tone_Gen" output="out0"/>
+            <TO module="xmm7260_Tone_Volume" input="in0"/>
+        </LINK>
+        <LINK>
+            <FROM module="xmm7260_Tone_Volume" output="out0" position="RIGHT"/>
+            <TO module="xmm7260_SWM" input="in0" position="LEFT"/>
+        </LINK>
+        <LINK>
+            <FROM module="xmm7260_SPEECH_RX_Volume" output="out0"/>
+            <TO module="xmm7260_SWM" input="in0"/>
+        </LINK>
+        <LINK>
+            <FROM module="xmm7260_SPEECH_RX" output="out0"/>
+            <TO module="xmm7260_SPEECH_RX_Volume" input="in0"/>
+        </LINK>
+        <LINK>
+            <FROM module="xmm7260_SWM" output="out0"/>
+            <TO module="xmm7260_SPEECH_TX_Volume" input="in0"/>
+        </LINK>
+        <LINK>
+            <FROM module="xmm7260_SPEECH_TX_Volume" output="out0"/>
+            <TO module="xmm7260_SPEECH_TX" input="in0"/>
+        </LINK>
+        <LINK>
+            <FROM module="xmm7260_SPEECH_TX" output="out0"/>
+            <TO module="xmm7260_Network" input="in0"/>
+        </LINK>
+        <LINK>
+            <FROM module="xmm7260_Network" output="out0"/>
+            <TO module="xmm7260_SPEECH_RX" input="in0"/>
+        </LINK>
+    </SUBSYSTEM>
     <SUBSYSTEM description="Bt and Fm hardware" name="cws_broadcom" path="none" type="t_cws_broadcom"/>
     <UI_ELEM name="media_compr_pcm" type="t_ui_1_in_0_out"/>
     <UI_ELEM name="voip_pcm" type="t_ui_1_in_1_out"/>
@@ -747,6 +892,14 @@
     <LINK name="pcm tdm">
         <FROM module="realtek5672" output="aif1_out" position="UP"/>
         <TO module="sst" input="ssp0_in"/>
+    </LINK>
+    <LINK name="voice uplink">
+        <FROM module="sst" output="ssp2_out"/>
+        <TO module="xmm7260" input="ssp1_in" position="UP"/>
+    </LINK>
+    <LINK name="voice downlink">
+        <FROM module="xmm7260" output="ssp1_out" position="UP"/>
+        <TO module="sst" input="ssp2_in"/>
     </LINK>
     <LINK name="bluetooth uplink">
         <FROM module="cws_broadcom" output="ssp_out"/>

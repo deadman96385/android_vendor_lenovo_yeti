@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ProbeLayout Tags="card:0,device:4" ProbeCount="8">
+<ProbeLayout Tags="card:1,device:5" ProbeCount="8">
     <ProbePoint Module="modem_in_gain" Pin="out0" Path="modem_in gain" Description="modem_in gain" SampleRate="48000" SampleSize="32" ChannelCount="1"/>
     <ProbePoint Module="modem_in_dcr" Pin="out0" Path="modem_in dcr" Description="modem_in dcr" SampleRate="48000" SampleSize="32" ChannelCount="1"/>
     <ProbePoint Module="modem_out_gain" Pin="out0" Path="modem_out gain" Description="modem_out gain" SampleRate="48000" SampleSize="16" ChannelCount="1"/>
@@ -23,7 +23,7 @@
     <ProbePoint Module="pcm_voip_out_gain" Pin="out0" Path="voip_out gain" Description="voip_out gain" SampleRate="8000|16000" SampleSize="32" ChannelCount="1"/>
     <ProbePoint Module="spk_prot_gain" Pin="out0" Path="sprot_loop_out gain" Description="sprot_loop_out gain" SampleRate="48000" SampleSize="32" ChannelCount="2"/>
     <ProbePoint Module="spk_prot_lpro" Pin="out0" Path="sprot_loop_out lpro" Description="sprot_loop_out lpro" SampleRate="48000" SampleSize="32" ChannelCount="2"/>
-    <ProbePoint Module="spk_eq_equalizer" Pin="out0" Path="media_loop1_out fir_stereo" Description="media_loop1_out fir_stereo" SampleRate="48000" SampleSize="32" ChannelCount="1"/>
+    <ProbePoint Module="spk_eq_equalizer" Pin="out0" Path="media_loop1_out fir_stereo" Description="media_loop1_out fir_stereo" SampleRate="48000" SampleSize="32" ChannelCount="2"/>
     <ProbePoint Module="spk_eq_mdrc" Pin="out0" Path="media_loop1_out mdrp" Description="media_loop1_out mdrp" SampleRate="48000" SampleSize="32" ChannelCount="1"/>
     <ProbePoint Module="spk_eq_gain" Pin="out0" Path="media_loop1_out gain" Description="media_loop1_out gain" SampleRate="48000" SampleSize="32" ChannelCount="1"/>
     <ProbePoint Module="mic_eq_equalizer" Pin="out0" Path="media_loop2_out fir_stereo" Description="media_loop2_out fir_stereo" SampleRate="48000" SampleSize="32" ChannelCount="2"/>
@@ -35,7 +35,23 @@
     <ProbePoint Module="speech_ul_sidetone_gain" Pin="out0" Path="sidetone_in" Description="sidetone_in" SampleRate="48000" SampleSize="32" ChannelCount="1"/>
     <ProbePoint Module="speech_ul_sidetone_equalizer" Pin="out0" Path="sidetone_in iir_stereo" Description="sidetone_in iir_stereo" SampleRate="48000" SampleSize="32" ChannelCount="1"/>
     <ProbePoint Module="speech_ul_in_gain" Pin="out0" Path="txspeech_in gain" Description="txspeech_in gain" SampleRate="8000|16000" SampleSize="32" ChannelCount="1"/>
+    <ProbePoint Module="speech_ul_bmf" Pin="out0" Path="voice_uplink 19" Description="voice_uplink 19" SampleRate="8000|16000" SampleSize="16" ChannelCount="1"/>
+    <ProbePoint Module="speech_ul_aec" Pin="out0" Path="voice_uplink 3" Description="voice_uplink 3" SampleRate="8000|16000" SampleSize="16" ChannelCount="1"/>
+    <ProbePoint Module="speech_ul_nr_dnr" Pin="out0" Path="voice_uplink 4" Description="voice_uplink 4" SampleRate="8000|16000" SampleSize="16" ChannelCount="1"/>
+    <ProbePoint Module="speech_ul_ser" Pin="out0" Path="voice_uplink 5" Description="voice_uplink 5" SampleRate="8000|16000" SampleSize="16" ChannelCount="1"/>
+    <ProbePoint Module="speech_ul_nlf" Pin="out0" Path="voice_uplink 20" Description="voice_uplink 20" SampleRate="8000|16000" SampleSize="16" ChannelCount="1"/>
     <ProbePoint Module="speech_ul_hf_sns_gain" Pin="out0" Path="voice_uplink 22" Description="voice_uplink 22" SampleRate="8000|16000" SampleSize="16" ChannelCount="1"/>
+    <ProbePoint Module="speech_ul_equalizer_hf_sns2" Pin="out0" Path="voice_uplink 16" Description="voice_uplink 16" SampleRate="8000|16000" SampleSize="16" ChannelCount="1"/>
+    <ProbePoint Module="speech_ul_equalizer_main" Pin="out0" Path="voice_uplink 2" Description="voice_uplink 2" SampleRate="8000|16000" SampleSize="16" ChannelCount="1"/>
+    <ProbePoint Module="speech_ul_drp" Pin="out0" Path="voice_uplink 7" Description="voice_uplink 7" SampleRate="8000|16000" SampleSize="16" ChannelCount="1"/>
     <ProbePoint Module="speech_dl_out_gain" Pin="out0" Path="rxspeech_out gain" Description="rxspeech_out gain" SampleRate="8000|16000" SampleSize="16" ChannelCount="1"/>
     <ProbePoint Module="speech_dl_in_gain" Pin="out0" Path="speech_in gain" Description="speech_in gain" SampleRate="8000|16000" SampleSize="32" ChannelCount="1"/>
+    <ProbePoint Module="speech_dl_slv" Pin="out0" Path="voice_downlink 10" Description="voice_downlink 10" SampleRate="8000|16000" SampleSize="16" ChannelCount="1"/>
+    <ProbePoint Module="speech_dl_ana_drp" Pin="out0" Path="voice_downlink 11" Description="voice_downlink 11" SampleRate="8000|16000" SampleSize="16" ChannelCount="1"/>
+    <ProbePoint Module="speech_dl_mdrp" Pin="out0" Path="voice_downlink 12" Description="voice_downlink 12" SampleRate="8000|16000" SampleSize="16" ChannelCount="1"/>
+    <ProbePoint Module="speech_dl_equalizer" Pin="out0" Path="voice_downlink 14" Description="voice_downlink 14" SampleRate="8000|16000" SampleSize="16" ChannelCount="1"/>
+    <ProbePoint Module="speech_dl_bwx" Pin="out0" Path="voice_downlink 17" Description="voice_downlink 17" SampleRate="8000|16000" SampleSize="16" ChannelCount="1"/>
+    <ProbePoint Module="speech_dl_glc" Pin="out0" Path="voice_downlink 18" Description="voice_downlink 18" SampleRate="8000|16000" SampleSize="16" ChannelCount="1"/>
+    <ProbePoint Module="speech_dl_nr" Pin="out0" Path="voice_downlink 21" Description="voice_downlink 21" SampleRate="8000|16000" SampleSize="16" ChannelCount="1"/>
+    <ProbePoint Module="speech_dl_tnr" Pin="out0" Path="voice_downlink 27" Description="voice_downlink 27" SampleRate="8000|16000" SampleSize="16" ChannelCount="1"/>
 </ProbeLayout>

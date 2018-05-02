@@ -12,6 +12,12 @@
         <OUTPUT name="ssp1_out" position="Continuous"/>
         <OUTPUT name="ssp2_out" position="Continuous"/>
     </SUBSYSTEM_TYPE>
+    <SUBSYSTEM_TYPE version="1.0" image="xmm7260.png" name="t_modem_xmm7260">
+        <INPUT name="ssp1_in" position="Continuous"/>
+        <INPUT name="ssp2_in" position="Continuous"/>
+        <OUTPUT name="ssp1_out" position="Continuous"/>
+        <OUTPUT name="ssp2_out" position="Continuous"/>
+    </SUBSYSTEM_TYPE>
     <SUBSYSTEM_TYPE version="1.0" image="cws_broadcom.png" name="t_cws_broadcom">
         <INPUT name="ssp_in" position="Continuous"/>
         <OUTPUT name="ssp_out" position="Continuous"/>
@@ -74,6 +80,7 @@
         <OUTPUT name="out3" position="Continuous"/>
     </SUBSYSTEM_TYPE>
     <SUBSYSTEM_TYPE image="matrix.png" name="t_main_matrix">
+        <INPUT name="modem_in" position="Continuous"/>
         <INPUT name="bt_in" position="Continuous"/>
         <INPUT name="codec0_in" position="Continuous"/>
         <INPUT name="codec1_in" position="Continuous"/>
@@ -88,6 +95,7 @@
         <INPUT name="tone_in" position="Continuous"/>
         <INPUT name="pcm1_in"/>
         <INPUT name="pcm2_in"/>
+        <OUTPUT name="modem_out" position="Continuous"/>
         <OUTPUT name="bt_out" position="Continuous"/>
         <OUTPUT name="codec0_out" position="Continuous"/>
         <OUTPUT name="codec1_out" position="Continuous"/>
@@ -205,7 +213,7 @@
         <INPUT name="in0" position="Continuous"/>
         <OUTPUT name="out0" position="Continuous"/>
     </MODULE_TYPE>
-    <MODULE_TYPE uuid="drp.v1.4.0001" image="drp.png" name="t_ul_drp">
+    <MODULE_TYPE uuid="drp.v1.4.0002" image="drp.png" name="t_ul_drp">
         <INPUT name="in0" position="Continuous"/>
         <OUTPUT name="out0" position="Continuous"/>
     </MODULE_TYPE>
@@ -222,12 +230,12 @@
         <INPUT name="in1" position="UP"/>
         <OUTPUT name="out0" position="Continuous"/>
     </MODULE_TYPE>
-    <MODULE_TYPE uuid="ana_drp.v2.5.0001" image="ana_drp.png" name="t_ana_drp">
+    <MODULE_TYPE uuid="ana_drp.v2.5.0002" image="ana_drp.png" name="t_ana_drp">
         <INPUT name="in0" position="Continuous"/>
         <INPUT name="in1" position="Continuous"/>
         <OUTPUT name="out0" position="Continuous"/>
     </MODULE_TYPE>
-    <MODULE_TYPE uuid="agc.v1.3.0001" image="agc.png" name="t_agc">
+    <MODULE_TYPE uuid="agc.v1.3.0002" image="agc.png" name="t_agc">
         <INPUT name="in0" position="Continuous"/>
         <INPUT name="in1" position="Continuous"/>
         <OUTPUT name="out0" position="Continuous"/>
@@ -253,7 +261,7 @@
         <INPUT name="in0" position="Continuous"/>
         <OUTPUT name="out0" position="Continuous"/>
     </MODULE_TYPE>
-    <MODULE_TYPE uuid="glc.v1.3.0001" image="glc.png" name="t_glc">
+    <MODULE_TYPE uuid="glc.v1.3.0002" image="glc.png" name="t_glc">
         <INPUT name="in0" position="Continuous"/>
         <OUTPUT name="out0" position="Continuous"/>
     </MODULE_TYPE>
@@ -310,17 +318,5 @@
         <INPUT name="in1" position="Continuous"/>
         <OUTPUT name="out0" position="Continuous"/>
         <OUTPUT name="out1" position="Continuous"/>
-    </MODULE_TYPE>
-    <MODULE_TYPE version="1.0" uuid="fortemedia_ul.v1.1.0001" image="pipe.png" name="t_fortemedia_ul">
-        <INPUT name="Mic1"/>
-        <INPUT name="Mic2"/>
-        <INPUT name="Echo_Ref"/>
-        <OUTPUT name="Amb_Noise"/>
-        <OUTPUT name="TX_SPEECH_IN"/>
-    </MODULE_TYPE>
-    <MODULE_TYPE version="1.0" uuid="fortemedia_dl.v1.1.0001" image="pipe.png" name="t_fortemedia_dl">
-        <INPUT name="in0"/>
-        <INPUT name="Echo_Ref"/>
-        <OUTPUT name="out0"/>
     </MODULE_TYPE>
 </LAYOUT_TYPES>

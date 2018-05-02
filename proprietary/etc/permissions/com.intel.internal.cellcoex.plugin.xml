@@ -14,5 +14,5 @@
 -->
 <permissions>
 <library name="com.intel.internal.cellcoex.plugin"
-         file="/system/framework/com.intel.internal.cellcoex.plugin.jar"/>
+         file="/system/vendor/framework/com.intel.internal.cellcoex.plugin.jar"/>
 </permissions>

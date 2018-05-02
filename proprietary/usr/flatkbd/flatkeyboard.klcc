@@ -1,0 +1,83 @@
+#Product_Country_Code   #OSK_Layout_Category    #OSK_Keyboard_Type  #Country_Name
+
+FR  UK  FR      #France
+DE  UK  DE      #Germany
+IT  UK  IT      #Italy
+AT  UK  DE      #Austria
+GB  UK  UK      #United Kingdom
+UK  UK  UK      #United Kingdom
+RU  US  RU      #Russia
+UA  US  Ukrainian      #Ukraine
+PK  UK  UK		#Pakistan
+TR  UK  TR      #Turkey
+PL  US  US      #Poland
+HU  UK  HU      #Hungary
+RO  UK  UK      #Romania
+BG  UK  BG      #Bulgaria
+GR  US  GR      #Greece
+HR  UK  SL      #Croatia
+SI  UK  SL      #Slovenia
+SK  UK  CZ      #Slovakia
+CY  UK  UK      #Cyprus
+RS  UK  SL      #Serbia
+CZ  UK  CZ      #Czech Republic
+ES  UK  ES      #Spain
+CH  UK  CH      #Switzerland
+PT  UK  PT      #Portugal
+NL  US  US_IN   #Netherlands
+BE  UK  BE      #Belgium
+SE  UK  SE      #Sweden
+DK  UK  SE      #Denmark
+NO  UK  SE      #Norway NO
+FI  UK  SE      #Finland
+EE  UK  SE      #Estonia EE
+LV  US  US_IN   #Latvia
+LT  US  US_IN   #Lithuania
+IS  UK  SE      #Iceland
+EG  US  AR      #Egypt
+LB  US  AR      #Lebanon
+MA  UK  FR      #Morocco
+ZA  US  US      #South Africa
+MU  US  US      #Mauritius
+MZ  UK  PT      #Mozambique
+TN  UK  FR      #Tunisia
+IL  US  IL      #Israel
+SA  US  AR      #Saudi Arabia
+AE  US  AR      #United Arab Emirates
+JO  US  AR      #Jordan
+KE  UK  UK      #Kenya
+NG  US  US      #Nigeria
+UG  US  US      #Uganda
+GH  US  US      #Ghana
+OM  US  AR      #Oman
+TZ  US  US      #Tanzania
+NA  US  US      #Namibia
+US  US  US      #United States of America
+CA  UK  CA      #Canada
+PA  UK  ES_LAS  #Panama
+GT  UK  ES_LAS  #Guatemala
+CR  UK  ES_LAS  #Costa Rica
+SV  UK  ES_LAS  #El Salvador
+VE  UK  ES_LAS  #Venezuela
+PE  UK  ES_LAS  #Peru
+UY  UK  ES_LAS  #Uruguay
+EC  UK  ES_LAS  #Ecuador
+CO  UK  ES_LAS  #Colombia
+MX  UK  ES_LAS  #Mexico
+CL  UK  ES_LAS  #Chile
+AR  UK  ES_LAS  #Argentina
+BR  UK  BR      #Brazil
+AU  US  US      #Australia
+NZ  US  US      #New Zealand
+JP  JP  JP      #Japan
+TW  US  US      #Taiwan
+ID  US  US      #Indonesia
+VN  US  US      #Vietnam
+IN  US  IN      #India
+MY  US  US      #Malaysia
+TH  US  US      #Thailand
+PH  US  US      #Philippines
+SG  US  US      #Singapore
+HK  US  US      #Hong Kong
+KR  US  KR      #Korea
+CN  US  US      #China
