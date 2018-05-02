@@ -14,5 +14,7 @@
 # limitations under the License.
 #
 
-PRODUCT_COPY_FILES += \
-    $(call find-copy-subdir-files,*,vendor/xiaomi/latte/proprietary,system)
+# Pick up overlay for features that depend on non-open-source files
+$(call inherit-product, vendor/lenovo/yetiwifi/yetiwifi-vendor-blobs.mk)
+
+
